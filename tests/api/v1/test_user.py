@@ -34,3 +34,34 @@ def test_get_nonexistent_user():
     response = client.get("/api/v1/users/9999")
     assert response.status_code == 404
     assert response.json() == {"detail": "User not found"}
+
+def test_list_users():
+    # Ensure there is at least one user
+    response = client.post("/api/v1/users", json={"name": "Another User", "email": "another@example.com"})
+    users = client.get("/api/v1/users")
+    assert users.status_code == 200
+    assert len(users.json()) >= 1
+
+def test_update_user():
+    # Create a new user to update
+    response = client.post("/api/v1/users", json={"name": "Update User", "email": "update@example.com"})
+    created_user = response.json()
+    user_id = created_user["id"]
+    # Update the user's name
+    update_response = client.put(f"/api/v1/users/{user_id}", json={"name": "Updated Name", "email": "updated@example.com"})
+    assert update_response.status_code == 200
+    updated_user = update_response.json()
+    assert updated_user["name"] == "Updated Name"
+
+def test_delete_user():
+    # Create a new user to delete
+    response = client.post("/api/v1/users", json={"name": "Delete User", "email": "delete@example.com"})
+    created_user = response.json()
+    user_id = created_user["id"]
+    # Delete the user
+    delete_response = client.delete(f"/api/v1/users/{user_id}")
+    assert delete_response.status_code == 200
+    # Verify the user is deleted
+    get_response = client.get(f"/api/v1/users/{user_id}")
+    assert get_response.status_code == 404
+    assert get_response.json() == {"detail": "User not found"}
