@@ -1,12 +1,12 @@
 {
-    "python.testing.pytestArgs": [
-        "tests"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true,
-    "cSpell.words": [
-        "pydantic",
-        "pytest",
-        "pythonpath"
-    ]
+  "python.testing.pytestArgs": ["tests"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "cSpell.words": [
+    "ondelete",
+    "pydantic",
+    "pytest",
+    "pythonpath",
+    "sessionmaker"
+  ]
 }

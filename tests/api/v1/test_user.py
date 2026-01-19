@@ -15,6 +15,7 @@ def override_get_user_service():
 
 app.dependency_overrides[get_user_service] = override_get_user_service
 
+
 def test_create_and_get_user():
     # Create a new user
     response = client.post("/api/v1/users", json={"name": "Test User", "email": "test@example.com"})
@@ -30,10 +31,12 @@ def test_create_and_get_user():
     assert fetched_user["id"] == created_user["id"]
     assert fetched_user["name"] == created_user["name"]
 
+
 def test_get_nonexistent_user():
     response = client.get("/api/v1/users/9999")
     assert response.status_code == 404
     assert response.json() == {"detail": "User not found"}
+
 
 def test_list_users():
     # Ensure there is at least one user
@@ -53,6 +56,13 @@ def test_update_user():
     updated_user = update_response.json()
     assert updated_user["name"] == "Updated Name"
 
+
+def test_update_nonexistent_user():
+    update_response = client.put("/api/v1/users/9999", json={"name": "Nonexistent User", "email": "some@example.com"})
+    assert update_response.status_code == 404
+    assert update_response.json() == {"detail": "User not found"}
+
+
 def test_delete_user():
     # Create a new user to delete
     response = client.post("/api/v1/users", json={"name": "Delete User", "email": "delete@example.com"})
@@ -65,3 +75,9 @@ def test_delete_user():
     get_response = client.get(f"/api/v1/users/{user_id}")
     assert get_response.status_code == 404
     assert get_response.json() == {"detail": "User not found"}
+
+
+def test_delete_nonexistent_user():
+    delete_response = client.delete("/api/v1/users/9999")
+    assert delete_response.status_code == 404
+    assert delete_response.json() == {"detail": "User not found"}
