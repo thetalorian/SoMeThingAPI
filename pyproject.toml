@@ -1,0 +1,19 @@
+[project]
+name = "SoMeThingAPI"
+version = "0.1.0"
+description = "A sample Social Media API for demonstration purposes."
+license = "MIT"
+authors = [
+    {name = "Samuel Plum", email = "splum@taloria.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.95.0",
+    "uvicorn[standard]>=0.22.0",
+    "sqlalchemy>=2.0.0",
+    "databases[sqlite]>=0.7.0",
+    "pydantic>=2.0.0",
+]
+[tool.pytest.ini_options]
+pythonpath = "."
